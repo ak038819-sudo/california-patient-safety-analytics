@@ -34,6 +34,7 @@ Public California OSHPD Patient Safety Indicators dataset (2005–2015), aggrega
 
 ## Dashboard
 Open the `.pbix` file in `dashboards/` using Power BI Desktop.
+![Executive Overview](dashboards/executive_overview.png)
 
 ## Author
 Austin Knighton
