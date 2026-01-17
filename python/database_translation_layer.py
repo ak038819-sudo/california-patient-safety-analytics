@@ -6,7 +6,7 @@ CSV_PATH = r"C:\Users\Owner\Downloads\ca-oshpd-adveventhospitalizationspsi-count
 
 df = pd.read_csv(CSV_PATH)
 
-# Rename columns to match table schema
+# Column and data schema
 df.columns = [
     "year",
     "county",
@@ -17,14 +17,11 @@ df.columns = [
     "obs_rate"
 ]
 
-# ---- CLEANING / TYPE FIXES ----
-
-# Strip whitespace in text fields
+# Strip whitespace and remove commas
 df["county"] = df["county"].astype(str).str.strip()
 df["psi_code"] = df["psi_code"].astype(str).str.strip()
 df["psi_description"] = df["psi_description"].astype(str).str.strip()
 
-# Remove commas (e.g., "1,234,567") and convert numeric fields safely
 for col in ["event_count", "population", "obs_rate", "year"]:
     df[col] = (
         df[col]
@@ -39,10 +36,10 @@ df["event_count"] = pd.to_numeric(df["event_count"], errors="coerce").astype("In
 df["population"] = pd.to_numeric(df["population"], errors="coerce").astype("Int64")
 df["obs_rate"] = pd.to_numeric(df["obs_rate"], errors="coerce")
 
-# Convert pandas NA/NaN to Python None for MySQL
+# conver Pandas to Python
 df = df.where(pd.notnull(df), None)
 
-# ---- INSERT INTO MYSQL ----
+# My SQL translaion layer
 conn = mysql.connector.connect(
     host="localhost",
     user="root",
